@@ -1,1 +1,57 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Tracker</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        input, button { font-size: 20px; margin: 10px; padding: 10px; }
+        ul { list-style-type: none; padding: 0; }
+        li { font-size: 18px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Ticket Entry</h1>
+    <input type="number" id="ticketInput" placeholder="Enter Ticket Number">
+    <button onclick="saveTicket()">Register</button>
+    
+    <h2>Registered Tickets</h2>
+    <ul id="ticketList"></ul>
+
+    <script>
+        // Load stored ticket numbers when the page loads
+        document.addEventListener("DOMContentLoaded", loadTickets);
+
+        function saveTicket() {
+            let input = document.getElementById("ticketInput");
+            let ticketNumber = input.value.trim();
+
+            if (ticketNumber === "") return; // Ignore empty input
+
+            let tickets = JSON.parse(localStorage.getItem("tickets") || "[]");
+
+            if (!tickets.includes(ticketNumber)) {
+                tickets.push(ticketNumber);
+                localStorage.setItem("tickets", JSON.stringify(tickets));
+                loadTickets(); // Update the list
+            }
+
+            input.value = ""; // Clear input
+        }
+
+        function loadTickets() {
+            let tickets = JSON.parse(localStorage.getItem("tickets") || "[]");
+            let list = document.getElementById("ticketList");
+            list.innerHTML = "";
+
+            tickets.forEach(ticket => {
+                let li = document.createElement("li");
+                li.textContent = `Ticket #${ticket}`;
+                list.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>
