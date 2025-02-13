@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,36 +8,39 @@
         body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
         input, button { font-size: 20px; margin: 10px; padding: 10px; }
         ul { list-style-type: none; padding: 0; }
-        li { font-size: 18px; margin: 5px; }
+        li { font-size: 18px; margin: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .delete-btn { background: red; color: white; border: none; padding: 5px 10px; cursor: pointer; }
     </style>
 </head>
 <body>
     <h1>Ticket Entry</h1>
     <input type="number" id="ticketInput" placeholder="Enter Ticket Number">
     <button onclick="saveTicket()">Register</button>
-    
+
+    <h2>Search Tickets</h2>
+    <input type="text" id="searchInput" placeholder="Search Ticket" onkeyup="searchTickets()">
+
     <h2>Registered Tickets</h2>
     <ul id="ticketList"></ul>
 
     <script>
-        // Load stored ticket numbers when the page loads
         document.addEventListener("DOMContentLoaded", loadTickets);
 
         function saveTicket() {
             let input = document.getElementById("ticketInput");
             let ticketNumber = input.value.trim();
 
-            if (ticketNumber === "") return; // Ignore empty input
+            if (ticketNumber === "") return;
 
             let tickets = JSON.parse(localStorage.getItem("tickets") || "[]");
 
             if (!tickets.includes(ticketNumber)) {
                 tickets.push(ticketNumber);
                 localStorage.setItem("tickets", JSON.stringify(tickets));
-                loadTickets(); // Update the list
+                loadTickets();
             }
 
-            input.value = ""; // Clear input
+            input.value = "";
         }
 
         function loadTickets() {
@@ -48,8 +50,28 @@
 
             tickets.forEach(ticket => {
                 let li = document.createElement("li");
-                li.textContent = `Ticket #${ticket}`;
+                li.innerHTML = `Ticket #${ticket} <button class="delete-btn" onclick="deleteTicket('${ticket}')">X</button>`;
                 list.appendChild(li);
+            });
+        }
+
+        function deleteTicket(ticketNumber) {
+            let tickets = JSON.parse(localStorage.getItem("tickets") || "[]");
+            tickets = tickets.filter(ticket => ticket !== ticketNumber);
+            localStorage.setItem("tickets", JSON.stringify(tickets));
+            loadTickets();
+        }
+
+        function searchTickets() {
+            let query = document.getElementById("searchInput").value.toLowerCase();
+            let tickets = document.querySelectorAll("#ticketList li");
+
+            tickets.forEach(ticket => {
+                if (ticket.textContent.toLowerCase().includes(query)) {
+                    ticket.style.display = "flex";
+                } else {
+                    ticket.style.display = "none";
+                }
             });
         }
     </script>
