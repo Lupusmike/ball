@@ -90,6 +90,13 @@
             color: #aaa;
             margin-left: 15px;
         }
+
+        /* Warning Message Styling */
+        .warning {
+            color: #ff9800;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -104,6 +111,8 @@
     <h2>📋 Registered Tickets</h2>
     <ul id="ticketList"></ul>
 
+    <div id="warningMessage" class="warning" style="display:none;"></div> <!-- Warning message -->
+
     <script>
         document.addEventListener("DOMContentLoaded", loadTickets);
 
@@ -116,11 +125,19 @@
 
             let tickets = JSON.parse(localStorage.getItem("tickets") || "[]");
 
+            // Check if the ticket is already registered
+            if (tickets.some(ticket => ticket.number === ticketNumber)) {
+                showWarning("This ticket is already registered!");
+                return; // Stop further execution if ticket is already registered
+            } else {
+                hideWarning();
+            }
+
             // Add new ticket with timestamp
             tickets.push({ number: ticketNumber, timestamp: timestamp });
             localStorage.setItem("tickets", JSON.stringify(tickets));
 
-            loadTickets(); // Reload the list of tickets
+            loadTickets(); // Reload the ticket list
             input.value = ""; // Clear input field
         }
 
@@ -158,6 +175,18 @@
             });
         }
 
+        // Function to show the warning message
+        function showWarning(message) {
+            let warningMessage = document.getElementById("warningMessage");
+            warningMessage.style.display = "block";
+            warningMessage.textContent = message;
+        }
+
+        // Function to hide the warning message
+        function hideWarning() {
+            let warningMessage = document.getElementById("warningMessage");
+            warningMessage.style.display = "none";
+        }
     </script>
 </body>
 </html>
