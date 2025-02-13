@@ -90,13 +90,6 @@
             color: #aaa;
             margin-left: 15px;
         }
-
-        /* Warning Message Styling */
-        .warning {
-            color: #ff9800;
-            font-weight: bold;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
@@ -110,8 +103,6 @@
 
     <h2>📋 Registered Tickets</h2>
     <ul id="ticketList"></ul>
-
-    <div id="warningMessage" class="warning" style="display:none;"></div> <!-- Warning message -->
 
     <script>
         document.addEventListener("DOMContentLoaded", loadTickets);
@@ -127,10 +118,8 @@
 
             // Check if the ticket is already registered
             if (tickets.some(ticket => ticket.number === ticketNumber)) {
-                showWarning("This ticket is already registered!");
+                alert("This ticket is already registered!"); // Alert for duplicate ticket
                 return; // Stop further execution if ticket is already registered
-            } else {
-                hideWarning();
             }
 
             // Add new ticket with timestamp
@@ -173,19 +162,6 @@
                     ticket.style.display = "none";
                 }
             });
-        }
-
-        // Function to show the warning message
-        function showWarning(message) {
-            let warningMessage = document.getElementById("warningMessage");
-            warningMessage.style.display = "block";
-            warningMessage.textContent = message;
-        }
-
-        // Function to hide the warning message
-        function hideWarning() {
-            let warningMessage = document.getElementById("warningMessage");
-            warningMessage.style.display = "none";
         }
     </script>
 </body>
