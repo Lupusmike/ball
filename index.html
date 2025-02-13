@@ -5,22 +5,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ticket Tracker</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        input, button { font-size: 20px; margin: 10px; padding: 10px; }
-        ul { list-style-type: none; padding: 0; }
-        li { font-size: 18px; margin: 5px; display: flex; justify-content: space-between; align-items: center; }
-        .delete-btn { background: red; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        /* Input & Button Styling */
+        input {
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+            max-width: 300px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .register-btn {
+            background: #007bff;
+            color: white;
+        }
+
+        .register-btn:hover {
+            background: #0056b3;
+        }
+
+        .delete-btn {
+            background: red;
+            color: white;
+            border-radius: 6px;
+            padding: 5px 12px;
+        }
+
+        .delete-btn:hover {
+            background: darkred;
+        }
+
+        /* Ticket List */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        li {
+            background: white;
+            padding: 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        li:hover {
+            transform: scale(1.02);
+        }
     </style>
 </head>
 <body>
-    <h1>Ticket Entry</h1>
-    <input type="number" id="ticketInput" placeholder="Enter Ticket Number">
-    <button onclick="saveTicket()">Register</button>
+    <h1>🎟️ Ticket Tracker</h1>
 
-    <h2>Search Tickets</h2>
+    <input type="number" id="ticketInput" placeholder="Enter Ticket Number">
+    <button class="register-btn" onclick="saveTicket()">Register</button>
+
+    <h2>🔍 Search Tickets</h2>
     <input type="text" id="searchInput" placeholder="Search Ticket" onkeyup="searchTickets()">
 
-    <h2>Registered Tickets</h2>
+    <h2>📋 Registered Tickets</h2>
     <ul id="ticketList"></ul>
 
     <script>
